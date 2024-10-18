@@ -1,6 +1,26 @@
+"use client";
+import Button from "@/components/button";
+import { api } from "@/lib/api";
 import { CustomerProps } from "@/utils/customer.type";
+import { useRouter } from "next/navigation";
 
 export function CardItem({ customer }: { customer: CustomerProps }) {
+  const router = useRouter();
+
+  async function handleDeleteCustomer(id: string) {
+    try {
+      await api.delete("/api/customers", {
+        params: {
+          id,
+        },
+      });
+
+      router.refresh();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <article className="flex flex-col bg-gray-200 border-2 gap-2 p-2 rounded-lg hover:scale-105 duration-300">
       <h2>
@@ -22,9 +42,12 @@ export function CardItem({ customer }: { customer: CustomerProps }) {
         </p>
       )}
 
-      <button className="bg-red-500 px-4 py-1 self-start rounded-lg text-white">
+      <Button
+        variant="destructive"
+        onClick={() => handleDeleteCustomer(customer.id)}
+      >
         Deletar
-      </button>
+      </Button>
     </article>
   );
 }

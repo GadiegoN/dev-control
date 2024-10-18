@@ -1,4 +1,5 @@
 "use client";
+import Button from "@/components/button";
 import { Input } from "@/components/input";
 import { api } from "@/lib/api";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -34,7 +35,6 @@ export function Form({ userId }: { userId: string }) {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm<FormData>({
     resolver: zodResolver(schema),
   });
@@ -50,7 +50,6 @@ export function Form({ userId }: { userId: string }) {
       userId: userId,
     });
 
-    reset();
     router.refresh();
     router.replace("/dashboard/customers");
   }
@@ -121,13 +120,9 @@ export function Form({ userId }: { userId: string }) {
           <p className="text-red-500 text-sm">{errors.address.message}</p>
         )}
       </div>
-
-      <button
-        type="submit"
-        className="bg-blue-500 my-4 px-2 h-12 rounded-lg text-white font-bold hover:opacity-85 duration-300"
-      >
+      <Button type="submit" className="w-full">
         Enviar
-      </button>
+      </Button>
     </form>
   );
 }

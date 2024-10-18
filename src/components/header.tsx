@@ -5,7 +5,7 @@ import { FiLoader, FiLock, FiLogOut, FiUser } from "react-icons/fi";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 export function Header() {
-  const { status, data } = useSession();
+  const { status } = useSession();
 
   async function handleLogin() {
     await signIn();
