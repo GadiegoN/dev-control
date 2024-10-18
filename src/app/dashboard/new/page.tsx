@@ -3,6 +3,7 @@ import { authOptions } from "@/lib/auth";
 import prismaClient from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export default async function NewTicket() {
   const session = await getServerSession(authOptions);
@@ -14,6 +15,30 @@ export default async function NewTicket() {
   const customers = await prismaClient.customer.findMany({
     where: { userId: session.user.id },
   });
+
+  async function handleRegisterTicket(formData: FormData) {
+    "use server";
+
+    const name = formData.get("name");
+    const description = formData.get("description");
+    const customerId = formData.get("customer");
+
+    if (!name || !description || !customerId) {
+      return;
+    }
+
+    await prismaClient.ticket.create({
+      data: {
+        name: name as string,
+        description: description as string,
+        customerId: customerId as string,
+        status: "aberto",
+        userId: session?.user.id,
+      },
+    });
+
+    redirect("/dashboard");
+  }
 
   return (
     <>
@@ -33,7 +58,7 @@ export default async function NewTicket() {
           </Link>
         </div>
       ) : (
-        <form className="flex flex-col gap-4">
+        <form className="flex flex-col gap-4" action={handleRegisterTicket}>
           <div className="flex flex-col gap-1">
             <label
               htmlFor="ticket"
@@ -44,6 +69,7 @@ export default async function NewTicket() {
             <input
               type="text"
               id="ticket"
+              name="name"
               placeholder="Digite o nome do chamado"
               required
               className="rounded-lg border-2 py-2 px-4 h-12"
@@ -58,6 +84,7 @@ export default async function NewTicket() {
             </label>
             <textarea
               id="problem"
+              name="description"
               placeholder="Digite o nome do chamado"
               required
               className="rounded-lg border-2 py-2 px-4 h-24 resize-none"
@@ -74,6 +101,7 @@ export default async function NewTicket() {
                 </label>
                 <select
                   id="options"
+                  name="customer"
                   className="rounded-lg border-2 py-2 px-4 h-12"
                 >
                   {customers.map((item) => (
