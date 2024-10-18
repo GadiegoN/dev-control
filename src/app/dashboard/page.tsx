@@ -1,16 +1,7 @@
-import { authOptions } from "@/lib/auth";
-import { getServerSession } from "next-auth";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import { TicketItem } from "./components/ticket";
 
 export default async function Dashboard() {
-  const session = await getServerSession(authOptions);
-
-  if (!session || !session.user) {
-    redirect("/");
-  }
-
   return (
     <>
       <div className="py-8 flex items-center justify-between">

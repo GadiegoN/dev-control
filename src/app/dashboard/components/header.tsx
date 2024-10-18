@@ -6,6 +6,7 @@ export function DashboardHeader() {
       <header className="flex gap-4 py-2 px-4">
         <NavLink href="/dashboard">Chamados</NavLink>
         <NavLink href="/dashboard/customers">Clientes</NavLink>
+        <NavLink href="/dashboard/customers/new">Novo Cliente</NavLink>
       </header>
     </div>
   );

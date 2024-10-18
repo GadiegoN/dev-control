@@ -1,15 +1,17 @@
-import { authOptions } from "@/lib/auth";
-import { getServerSession } from "next-auth";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import { CardItem } from "../components/card";
+import prismaClient from "@/lib/prisma";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 export default async function Customers() {
   const session = await getServerSession(authOptions);
 
-  if (!session || !session.user) {
-    redirect("/");
-  }
+  const customers = await prismaClient.customer.findMany({
+    where: {
+      userId: session?.user.id,
+    },
+  });
 
   return (
     <>
@@ -25,9 +27,9 @@ export default async function Customers() {
       </div>
 
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <CardItem />
-        <CardItem />
-        <CardItem />
+        {customers.map((item) => (
+          <CardItem customer={item} />
+        ))}
       </section>
     </>
   );
