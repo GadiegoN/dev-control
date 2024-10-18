@@ -28,7 +28,7 @@ export default async function Customers() {
 
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {customers.map((item) => (
-          <CardItem customer={item} />
+          <CardItem key={item.id} customer={item} />
         ))}
       </section>
     </>

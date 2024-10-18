@@ -2,10 +2,7 @@ import { CustomerProps } from "@/utils/customer.type";
 
 export function CardItem({ customer }: { customer: CustomerProps }) {
   return (
-    <article
-      key={customer.userId}
-      className="flex flex-col bg-gray-200 border-2 gap-2 p-2 rounded-lg hover:scale-105 duration-300"
-    >
+    <article className="flex flex-col bg-gray-200 border-2 gap-2 p-2 rounded-lg hover:scale-105 duration-300">
       <h2>
         <span className="font-bold">Nome: </span>
         {customer.name}

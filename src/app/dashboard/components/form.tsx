@@ -42,7 +42,7 @@ export function Form({ userId }: { userId: string }) {
   const router = useRouter();
 
   async function handleRegisterCustomer(data: FormData) {
-    const response = await api.post("/api/customers", {
+    await api.post("/api/customers", {
       name: data.name,
       phone: data.phone,
       email: data.email,
@@ -51,6 +51,7 @@ export function Form({ userId }: { userId: string }) {
     });
 
     reset();
+    router.refresh();
     router.replace("/dashboard/customers");
   }
 
