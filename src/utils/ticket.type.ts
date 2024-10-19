@@ -1,4 +1,7 @@
+import { CustomerProps } from "./customer.type";
+
 export interface TicketProps {
+  customer: CustomerProps | null;
   name: string;
   id: string;
   description: string;
