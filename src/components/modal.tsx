@@ -1,0 +1,78 @@
+"use client";
+
+import { ModalContext } from "@/providers/modal";
+import { MouseEvent, useContext, useRef } from "react";
+import { FiX } from "react-icons/fi";
+
+export function ModalTicket() {
+  const { handleModalVisible } = useContext(ModalContext);
+  const modalRef = useRef<HTMLDivElement | null>(null);
+
+  const handleModalClick = (e: MouseEvent<HTMLDivElement>) => {
+    if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+      handleModalVisible();
+    }
+  };
+
+  return (
+    <div
+      className="absolute bg-black/60 w-screen h-screen"
+      onClick={handleModalClick}
+    >
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div
+          ref={modalRef}
+          className="bg-background shadow-lg w-4/5 mx-auto md:w-1/2 max-w-2xl p-3 rounded-lg"
+        >
+          <div className="flex justify-between px-2 items-center">
+            <h1 className="font-bold text-lg md:text-2xl">
+              Detalhes do chamado
+            </h1>
+
+            <button
+              onClick={handleModalVisible}
+              className="bg-red-500 text-white rounded-md p-1"
+            >
+              <FiX size={20} />
+            </button>
+          </div>
+
+          <div className="flex flex-wrap gap-1 mb-2">
+            <h2 className="font-bold">Nome:</h2>
+            <p>Nome do chamado</p>
+          </div>
+
+          <div className="flex flex-col gap-1 mb-2">
+            <h2 className="font-bold">Descrição:</h2>
+            <p>descrição do chamado uai</p>
+          </div>
+
+          <div className="w-full border-b border-gray-800 my-4" />
+
+          <div className="space-y-4">
+            <h1 className="font-bold text-lg">Detalhes do cliente</h1>
+
+            <div className="flex gap-1">
+              <h2 className="font-bold">Nome:</h2>
+              <p>Nome do cliente</p>
+            </div>
+
+            <div className="flex gap-1">
+              <h2 className="font-bold">Telefone:</h2>
+              <p>(34) 9xxxxxxxx</p>
+            </div>
+
+            <div className="flex gap-1">
+              <h2 className="font-bold">Email:</h2>
+              <p>email@email.com</p>
+            </div>
+            <div className="flex gap-1">
+              <h2 className="font-bold">Endereço:</h2>
+              <p>Rua do teste Centro</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

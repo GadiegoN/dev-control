@@ -1,4 +1,5 @@
 import Button from "@/components/button";
+import { Input } from "@/components/input";
 import { authOptions } from "@/lib/auth";
 import prismaClient from "@/lib/prisma";
 import { getServerSession } from "next-auth";
@@ -66,13 +67,12 @@ export default async function NewTicket() {
             >
               Nome do chamado
             </label>
-            <input
+            <Input
               type="text"
               id="ticket"
               name="name"
               placeholder="Digite o nome do chamado"
               required
-              className="rounded-lg border-2 py-2 px-4 h-12"
             />
           </div>
           <div className="flex flex-col gap-1">
