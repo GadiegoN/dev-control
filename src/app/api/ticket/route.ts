@@ -1,6 +1,7 @@
 import { authOptions } from "@/lib/auth";
 import prismaClient from "@/lib/prisma";
 import { getServerSession } from "next-auth";
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 
 export async function PATCH(req: Request) {
@@ -37,8 +38,39 @@ export async function PATCH(req: Request) {
       },
     });
 
+    revalidatePath("/dashboard");
+    revalidatePath("/dashboard/new");
+
     return NextResponse.json({ message: "Ticket fechado com sucesso!" });
   } catch (error) {
     return NextResponse.json({ error: "Not autorized" }, { status: 401 });
+  }
+}
+
+export async function POST(req: Request) {
+  const { customerId, name, description } = await req.json();
+
+  if (!customerId || !name || !description) {
+    return NextResponse.json(
+      { error: "Failed create new ticket" },
+      { status: 400 }
+    );
+  }
+
+  try {
+    await prismaClient.ticket.create({
+      data: {
+        name,
+        description,
+        status: "aberto",
+        customerId,
+      },
+    });
+
+    revalidatePath("/dashboard");
+
+    return NextResponse.json({ message: "Cadastrado com sucesso!" });
+  } catch (error) {
+    NextResponse.json({ error: "Failed create new ticket" }, { status: 400 });
   }
 }

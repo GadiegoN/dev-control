@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { FiLoader, FiLock, FiLogOut, FiUser } from "react-icons/fi";
 import { signIn, signOut, useSession } from "next-auth/react";
+import Button from "./button";
 
 export function Header() {
   const { status } = useSession();
@@ -38,12 +39,14 @@ export function Header() {
 
         {status === "authenticated" && (
           <div className="flex gap-4">
-            <Link href="/dashboard">
-              <FiUser size={26} />
-            </Link>
-            <button onClick={handleLogOut}>
+            <Button variant="ghost">
+              <Link href="/dashboard">
+                <FiUser size={26} />
+              </Link>
+            </Button>
+            <Button variant="destructive" onClick={handleLogOut}>
               <FiLogOut size={26} />
-            </button>
+            </Button>
           </div>
         )}
       </div>

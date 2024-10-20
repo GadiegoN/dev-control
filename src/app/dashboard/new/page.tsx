@@ -3,6 +3,7 @@ import { Input } from "@/components/input";
 import { authOptions } from "@/lib/auth";
 import prismaClient from "@/lib/prisma";
 import { getServerSession } from "next-auth";
+import { revalidatePath } from "next/cache";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -87,7 +88,7 @@ export default async function NewTicket() {
               name="description"
               placeholder="Digite o nome do chamado"
               required
-              className="rounded-lg border-2 py-2 px-4 h-24 resize-none"
+              className="rounded-lg py-2 px-4 h-24 resize-none border-b-2 border-blue-500 outline-none"
             ></textarea>
           </div>
           <div className="flex flex-col gap-1">
@@ -102,7 +103,7 @@ export default async function NewTicket() {
                 <select
                   id="options"
                   name="customer"
-                  className="rounded-lg border-2 py-2 px-4 h-12"
+                  className="rounded-lg py-2 px-4 h-12 resize-none border-2 border-blue-500 outline-none"
                 >
                   {customers.map((item) => (
                     <option key={item.id} value={item.id}>

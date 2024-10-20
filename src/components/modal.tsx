@@ -3,6 +3,7 @@
 import { ModalContext } from "@/providers/modal";
 import { MouseEvent, useContext, useRef } from "react";
 import { FiX } from "react-icons/fi";
+import Button from "./button";
 
 export function ModalTicket() {
   const { handleModalVisible, ticket } = useContext(ModalContext);
@@ -29,12 +30,9 @@ export function ModalTicket() {
               Detalhes do chamado
             </h1>
 
-            <button
-              onClick={handleModalVisible}
-              className="bg-red-500 text-white rounded-md p-1"
-            >
+            <Button onClick={handleModalVisible} variant="destructive">
               <FiX size={20} />
-            </button>
+            </Button>
           </div>
 
           <div className="flex flex-wrap gap-1 mb-2">

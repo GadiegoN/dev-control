@@ -1,7 +1,7 @@
 import { FC, ReactNode } from "react";
 
 interface ButtonProps {
-  variant?: "default" | "secondary" | "outline" | "destructive";
+  variant?: "default" | "secondary" | "outline" | "destructive" | "ghost";
   type?: "button" | "submit" | "reset" | undefined;
   children: ReactNode;
   onClick?: () => void;
@@ -12,8 +12,10 @@ interface ButtonProps {
 const buttonVariants = {
   default: "bg-blue-500 text-background",
   secondary: "bg-gray-700 text-background",
-  outline: "border-2 border-blue-500 text-blue-500 bg-transparent",
-  destructive: "bg-red-700 text-background",
+  outline:
+    "border-2 border-blue-500 text-blue-500 bg-transparent hover:bg-blue-500/10 duration-300",
+  destructive: "text-red-500 hover:bg-red-100",
+  ghost: "text-gray-800 hover:bg-blue-100",
 };
 
 const Button: FC<ButtonProps> = ({
