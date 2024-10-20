@@ -3,7 +3,6 @@ import { Input } from "@/components/input";
 import { authOptions } from "@/lib/auth";
 import prismaClient from "@/lib/prisma";
 import { getServerSession } from "next-auth";
-import { revalidatePath } from "next/cache";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 

@@ -11,6 +11,7 @@ import {
 } from "react-icons/fi";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Button from "./button";
+import { toast } from "sonner";
 
 export function Header() {
   const { status } = useSession();
@@ -27,12 +28,12 @@ export function Header() {
     try {
       if (navigator.clipboard) {
         await navigator.clipboard.writeText(link);
-        console.log("Link copiado para o a area de transferencia!");
+        toast.success("Link copiado para o a area de transferencia!");
       } else {
-        console.error("Clipboard API não é suportada neste navegador.");
+        toast.error("Clipboard API não é suportada neste navegador.");
       }
     } catch (error) {
-      console.error("Erro ao copiar o link:", error);
+      toast.warning("Erro ao copiar o link. Tente novamente!");
     }
   }
 

@@ -8,6 +8,7 @@ import { FiSearch, FiX } from "react-icons/fi";
 import { z } from "zod";
 import { FormTicket } from "./components/form-ticket";
 import { api } from "@/lib/api";
+import { Toaster } from "sonner";
 
 const schema = z.object({
   email: z

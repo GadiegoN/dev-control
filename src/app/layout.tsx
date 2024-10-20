@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/header";
 import { AuthProvider } from "@/providers/auth";
 import { ModalProvider } from "@/providers/modal";
+import { Toaster } from "sonner";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -35,6 +36,7 @@ export default function RootLayout({
           <ModalProvider>
             <Header />
             <main className="w-11/12 max-w-7xl mx-auto py-4">{children}</main>
+            <Toaster />
           </ModalProvider>
         </AuthProvider>
       </body>

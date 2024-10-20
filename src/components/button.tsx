@@ -16,7 +16,8 @@ interface ButtonProps {
 }
 
 const buttonVariants = {
-  default: "bg-blue-500 text-background",
+  default:
+    "bg-blue-500 text-background disabled:bg-gray-400 disabled:cursor-not-allowed",
   secondary: "bg-gray-700 text-background",
   outline:
     "border-2 border-blue-500 text-blue-500 bg-transparent hover:bg-blue-500/10 duration-300",
@@ -35,7 +36,7 @@ const Button: FC<ButtonProps> = ({
 }) => {
   return (
     <button
-      className={`px-4 py-2 self-start font-bold rounded-lg hover:opacity-85 duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed ${buttonVariants[variant]} ${className}`}
+      className={`px-4 py-2 self-start font-bold rounded-lg hover:opacity-85 duration-300 ${buttonVariants[variant]} ${className}`}
       onClick={onClick}
       type={type}
       disabled={disabled}

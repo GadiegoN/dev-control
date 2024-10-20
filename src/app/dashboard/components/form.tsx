@@ -4,7 +4,9 @@ import { Input } from "@/components/input";
 import { api } from "@/lib/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 const schema = z.object({
@@ -38,20 +40,30 @@ export function Form({ userId }: { userId: string }) {
   } = useForm<FormData>({
     resolver: zodResolver(schema),
   });
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
 
   async function handleRegisterCustomer(data: FormData) {
-    await api.post("/api/customers", {
-      name: data.name,
-      phone: data.phone,
-      email: data.email,
-      address: data.address,
-      userId: userId,
-    });
+    setIsSubmitting(true);
 
-    router.refresh();
-    router.replace("/dashboard/customers");
+    try {
+      await api.post("/api/customers", {
+        name: data.name,
+        phone: data.phone,
+        email: data.email,
+        address: data.address,
+        userId: userId,
+      });
+
+      toast.success("Cliente cadastrado com sucesso!");
+
+      router.refresh();
+      router.replace("/dashboard/customers");
+    } catch (error) {
+      toast.error("Erro ao cadastrar cliente. Tente novamente.");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -120,8 +132,8 @@ export function Form({ userId }: { userId: string }) {
           <p className="text-red-500 text-sm">{errors.address.message}</p>
         )}
       </div>
-      <Button type="submit" className="w-full">
-        Enviar
+      <Button disabled={isSubmitting} type="submit" className="w-full">
+        Cadastrar cliente
       </Button>
     </form>
   );

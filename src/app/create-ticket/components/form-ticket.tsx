@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { CustomerDataInfo } from "../page";
+import { toast } from "sonner";
 
 const schema = z.object({
   name: z.string().min(1, "Nome do chamado é obrigatório."),
@@ -35,6 +36,7 @@ export function FormTicket({ customer }: FormTicketProps) {
       customerId: customer.id,
     });
 
+    toast.success("Chamado aberto com sucesso!");
     reset();
   }
 
