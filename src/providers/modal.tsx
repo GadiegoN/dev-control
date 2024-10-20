@@ -9,6 +9,7 @@ interface ModalContextData {
   isVisible: boolean;
   handleModalVisible: () => void;
   ticket: TicketInfo | undefined;
+  setDetailTicket: (detail: TicketInfo) => void;
 }
 
 interface TicketInfo {
@@ -26,8 +27,14 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
     setIsVisible(!isVisible);
   }
 
+  function setDetailTicket(detail: TicketInfo) {
+    setTicket(detail);
+  }
+
   return (
-    <ModalContext.Provider value={{ isVisible, handleModalVisible, ticket }}>
+    <ModalContext.Provider
+      value={{ isVisible, handleModalVisible, ticket, setDetailTicket }}
+    >
       {isVisible && <ModalTicket />}
       {children}
     </ModalContext.Provider>
