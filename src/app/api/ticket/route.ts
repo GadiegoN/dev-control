@@ -74,3 +74,44 @@ export async function POST(req: Request) {
     NextResponse.json({ error: "Failed create new ticket" }, { status: 400 });
   }
 }
+
+export async function DELETE(req: Request) {
+  try {
+    const session = await getServerSession(authOptions);
+
+    if (!session || !session.user) {
+      return NextResponse.json({ error: "Not authorized" }, { status: 401 });
+    }
+
+    const { id } = await req.json();
+
+    const findTicket = await prismaClient.ticket.findFirst({
+      where: {
+        id: id as string,
+      },
+    });
+
+    if (!findTicket) {
+      return NextResponse.json({ error: "Ticket not found" }, { status: 404 });
+    }
+
+    await prismaClient.ticket.delete({
+      where: {
+        id: id as string,
+      },
+    });
+
+    revalidatePath("/dashboard");
+
+    return NextResponse.json(
+      { message: "Ticket deletado com sucesso!" },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Erro ao deletar o ticket:", error);
+    return NextResponse.json(
+      { error: "Failed to delete ticket" },
+      { status: 500 }
+    );
+  }
+}

@@ -1,11 +1,12 @@
 "use client";
+import Button from "@/components/button";
 import { api } from "@/lib/api";
 import { ModalContext } from "@/providers/modal";
 import { CustomerProps } from "@/utils/customer.type";
 import { TicketProps } from "@/utils/ticket.type";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
-import { FiCheckSquare, FiFile, FiTrash2 } from "react-icons/fi";
+import { FiCheckSquare, FiFile, FiTrash, FiTrash2 } from "react-icons/fi";
 
 interface TicketItemProps {
   ticket: TicketProps;
@@ -25,6 +26,18 @@ export function TicketItem({ customer, ticket }: TicketItemProps) {
       router.refresh();
     } catch (error) {
       console.log(error);
+    }
+  }
+
+  async function handleDeleteTicket(id: string) {
+    try {
+      await api.delete(`/api/ticket`, {
+        data: { id: id },
+      });
+
+      router.refresh();
+    } catch (error) {
+      console.error("Erro ao deletar o ticket:", error);
     }
   }
 
@@ -56,17 +69,25 @@ export function TicketItem({ customer, ticket }: TicketItemProps) {
         </td>
         <td className="rounded-br-lg">
           <div className="flex gap-2 justify-center">
-            <button onClick={handleChangeStatus}>
+            <Button variant="icon" onClick={handleChangeStatus}>
               <FiCheckSquare
                 size={24}
                 className={`${
-                  ticket.status === "aberto" ? "text-green-500" : "text-red-500"
+                  ticket.status === "aberto"
+                    ? "text-green-500"
+                    : "text-orange-500"
                 }`}
               />
-            </button>
-            <button onClick={handleOpenModal}>
+            </Button>
+            <Button variant="icon" onClick={handleOpenModal}>
               <FiFile size={24} className="text-blue-500" />
-            </button>
+            </Button>
+            <Button
+              variant="icon"
+              onClick={() => handleDeleteTicket(ticket?.id)}
+            >
+              <FiTrash size={24} className="text-red-500" />
+            </Button>
           </div>
         </td>
       </tr>

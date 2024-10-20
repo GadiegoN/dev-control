@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { FiLoader, FiLock, FiLogOut, FiUser } from "react-icons/fi";
+import { FiBook, FiLoader, FiLock, FiLogOut, FiUser } from "react-icons/fi";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Button from "./button";
 
@@ -32,9 +32,16 @@ export function Header() {
         )}
 
         {status === "unauthenticated" && (
-          <button onClick={handleLogin}>
-            <FiLock size={26} />
-          </button>
+          <div className="flex gap-2 items-center">
+            <Button variant="ghost">
+              <Link href="/create-ticket">
+                <FiBook size={24} />
+              </Link>
+            </Button>
+            <Button variant="ghost" onClick={handleLogin}>
+              <FiLock size={26} />
+            </Button>
+          </div>
         )}
 
         {status === "authenticated" && (
