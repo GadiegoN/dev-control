@@ -1,7 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { FiBook, FiLoader, FiLock, FiLogOut, FiUser } from "react-icons/fi";
+import {
+  FiBook,
+  FiLoader,
+  FiLock,
+  FiLogOut,
+  FiShare2,
+  FiUser,
+} from "react-icons/fi";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Button from "./button";
 
@@ -14,6 +21,19 @@ export function Header() {
 
   async function handleLogOut() {
     await signOut();
+  }
+
+  async function copyLinkToClipboard(link: string) {
+    try {
+      if (navigator.clipboard) {
+        await navigator.clipboard.writeText(link);
+        console.log("Link copiado para o a area de transferencia!");
+      } else {
+        console.error("Clipboard API não é suportada neste navegador.");
+      }
+    } catch (error) {
+      console.error("Erro ao copiar o link:", error);
+    }
   }
 
   return (
@@ -50,6 +70,16 @@ export function Header() {
               <Link href="/dashboard">
                 <FiUser size={26} />
               </Link>
+            </Button>
+            <Button
+              onClick={() =>
+                copyLinkToClipboard(
+                  "https://dev-control-one.vercel.app/create-ticket"
+                )
+              }
+              variant="ghost"
+            >
+              <FiShare2 size={26} />
             </Button>
             <Button variant="destructive" onClick={handleLogOut}>
               <FiLogOut size={26} />
